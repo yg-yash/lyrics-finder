@@ -1,11 +1,11 @@
-import React from "react";
+import React from 'react';
 
 class SearchBar extends React.Component {
   state = {
-    term: ""
+    term: '',
   };
 
-  onFormSubmit = e => {
+  onFormSubmit = (e) => {
     e.preventDefault();
     this.props.getSearchTerm(this.state.term);
   };
@@ -19,11 +19,15 @@ class SearchBar extends React.Component {
               className="form-control"
               type="text"
               placeholder="Enter Lyrics"
-              onChange={e => this.setState({ term: e.target.value })}
+              onChange={(e) => this.setState({ term: e.target.value })}
             />
           </div>
           <div className="form-group">
-            <button className="btn btn-block btn-primary" type="submit">
+            <button
+              className="btn btn-block btn-primary"
+              type="submit"
+              disabled={this.state.term < 1}
+            >
               Get Track Lyrics
             </button>
           </div>
