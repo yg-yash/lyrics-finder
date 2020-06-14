@@ -1,14 +1,15 @@
-import React from "react";
-import SearchBar from "./SearchBar";
-import SongsList from "./SongsList";
-import musixMatch from "../api/musixmatch";
-import musixmatch from "../api/musixmatch";
+import React from 'react';
+import SearchBar from './SearchBar';
+import SongsList from './SongsList';
+import musixMatch from '../api/musixmatch';
+import musixmatch from '../api/musixmatch';
 
 class DashBoard extends React.Component {
   state = {
-    term: "",
-    tracksText: "Top 10 Tracks",
-    trackList: []
+    term: '',
+    tracksText: 'Top 10 Tracks',
+    trackList: [],
+    error: '',
   };
 
   async componentDidMount() {
@@ -18,11 +19,11 @@ class DashBoard extends React.Component {
       );
       this.setState({ trackList: topTracks.data.message.body.track_list });
     } catch (error) {
-      console.log(error);
+      this.setState({ error: 'Something Went Wrong Please Try Again Later' });
     }
   }
 
-  getSearchTerm = async term => {
+  getSearchTerm = async (term) => {
     this.setState({ term });
 
     try {
@@ -32,7 +33,9 @@ class DashBoard extends React.Component {
 
       this.setState({ trackList: value.data.message.body.track_list });
     } catch (e) {
-      console.log(e);
+      this.setState({
+        error: 'Something Wrong With The Request Please Try Agaiin',
+      });
     }
   };
 
@@ -44,6 +47,7 @@ class DashBoard extends React.Component {
         </h1>
         <p>Get the lyrics for any track</p>
         <SearchBar getSearchTerm={this.getSearchTerm} />
+        {this.state.error && <p className="text-danger">{this.state.error}</p>}
         <SongsList
           tracksText={this.state.tracksText}
           trackList={this.state.trackList}

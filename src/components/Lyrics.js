@@ -1,11 +1,12 @@
-import React from "react";
-import musixMatch from "../api/musixmatch";
-import LyricsBody from "./LyricsBody";
+import React from 'react';
+import musixMatch from '../api/musixmatch';
+import LyricsBody from './LyricsBody';
 
 class Lyrics extends React.Component {
   state = {
     details: [],
-    lyrics: []
+    lyrics: [],
+    error: '',
   };
 
   async componentDidMount() {
@@ -17,10 +18,10 @@ class Lyrics extends React.Component {
 
       this.setState({
         lyrics: response.data.message.body,
-        details: this.props.location.details
+        details: this.props.location.details,
       });
     } catch (e) {
-      console.log(e);
+      this.setState({ error: 'Something Went Wrong Please Try Again Later' });
     }
   }
 
@@ -34,24 +35,31 @@ class Lyrics extends React.Component {
           Go Back
         </button>
         <div className="card">
-          <div className="card-header">
-            {this.state.details && this.state.details.trackName} By{" "}
-            {this.state.details && this.state.details.artistName}
-          </div>
-          <div className="card-body">
-            <LyricsBody lyrics={this.state.lyrics.lyrics} />
-          </div>
+          {this.state.error ? (
+            <p className="text-danger">{this.state.error}</p>
+          ) : (
+            <React.Fragment>
+              <div className="card-header">
+                {this.state.details && this.state.details.trackName} By{' '}
+                {this.state.details && this.state.details.artistName}
+              </div>
+              <div className="card-body">
+                <LyricsBody lyrics={this.state.lyrics.lyrics} />
+              </div>
 
-          <div className="card">
-            <ul className="list-group list-group-flush">
-              <li className="list-group-item">
-                Album ID: {this.state.details && this.state.details.albumId}
-              </li>
-              <li className="list-group-item">
-                Album Name: {this.state.details && this.state.details.albumName}
-              </li>
-            </ul>
-          </div>
+              <div className="card">
+                <ul className="list-group list-group-flush">
+                  <li className="list-group-item">
+                    Album ID: {this.state.details && this.state.details.albumId}
+                  </li>
+                  <li className="list-group-item">
+                    Album Name:{' '}
+                    {this.state.details && this.state.details.albumName}
+                  </li>
+                </ul>
+              </div>
+            </React.Fragment>
+          )}
         </div>
       </div>
     );

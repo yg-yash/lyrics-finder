@@ -1,8 +1,8 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-const SongCard = props => {
-  const listItems = props.tracks.map(track => {
+const SongCard = (props) => {
+  const listItems = props.tracks.map((track) => {
     return (
       <div className="card col-md-5 mx-4 my-4 p-3" key={track.track.track_id}>
         <h4>{track.track.artist_name}</h4>
@@ -21,8 +21,8 @@ const SongCard = props => {
               albumId: track.track.album_id,
               trackName: track.track.track_name,
               albumName: track.track.album_name,
-              artistName: track.track.artist_name
-            }
+              artistName: track.track.artist_name,
+            },
           }}
         >
           <button
@@ -30,7 +30,7 @@ const SongCard = props => {
             type="submit"
             value={track.track.track_id}
           >
-            > View Lyrics
+            View Lyrics
           </button>
         </Link>
       </div>
